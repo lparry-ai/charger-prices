@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { formatAge, formatMoney, formatTariff, formatTimeWindow, freshness } from "./format";
+import {
+  formatAge,
+  formatMoney,
+  formatTariff,
+  formatTimeWindow,
+  freshness,
+} from "./format";
 
 test("money reads in cents under a dollar", () => {
   assert.equal(formatMoney(0.59), "59c");
@@ -9,8 +15,24 @@ test("money reads in cents under a dollar", () => {
 });
 
 test("tariff headline", () => {
-  assert.equal(formatTariff({ is_free: false, per_kwh: 0.69, per_minute: null, session_fee: 1 }), "69c/kWh + $1.00 per session");
-  assert.equal(formatTariff({ is_free: true, per_kwh: null, per_minute: null, session_fee: null }), "Free");
+  assert.equal(
+    formatTariff({
+      is_free: false,
+      per_kwh: 0.69,
+      per_minute: null,
+      session_fee: 1,
+    }),
+    "69c/kWh + $1.00 per session",
+  );
+  assert.equal(
+    formatTariff({
+      is_free: true,
+      per_kwh: null,
+      per_minute: null,
+      session_fee: null,
+    }),
+    "Free",
+  );
 });
 
 test("ages and freshness", () => {

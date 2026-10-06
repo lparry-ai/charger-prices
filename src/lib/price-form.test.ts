@@ -26,11 +26,23 @@ test("needs a price unless free", () => {
 
 test("rejects junk and half-filled time windows", () => {
   assert.ok("error" in parsePriceForm(form({ per_kwh: "abc" })));
-  assert.ok("error" in parsePriceForm(form({ per_kwh: "0.5", timed: "on", time_window_start: "22:00" })));
+  assert.ok(
+    "error" in
+      parsePriceForm(
+        form({ per_kwh: "0.5", timed: "on", time_window_start: "22:00" }),
+      ),
+  );
 });
 
 test("keeps plan names only for member tiers and drops unknown connectors", () => {
-  const r = parsePriceForm(form({ per_kwh: "0.4", tier: "member", plan_name: "Plus", connector_type: "bogus" }));
+  const r = parsePriceForm(
+    form({
+      per_kwh: "0.4",
+      tier: "member",
+      plan_name: "Plus",
+      connector_type: "bogus",
+    }),
+  );
   assert.ok("value" in r);
   assert.equal(r.value.plan_name, "Plus");
   assert.equal(r.value.connector_type, null);

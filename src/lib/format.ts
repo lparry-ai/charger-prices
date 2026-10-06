@@ -71,7 +71,10 @@ export function formatAge(iso: string | null | undefined, now = Date.now()) {
 export type Freshness = "fresh" | "aging" | "stale";
 
 // Prices change rarely, but a month-old report deserves a hint of doubt.
-export function freshness(iso: string | null | undefined, now = Date.now()): Freshness {
+export function freshness(
+  iso: string | null | undefined,
+  now = Date.now(),
+): Freshness {
   if (!iso) return "stale";
   const days = (now - Date.parse(iso)) / 86_400_000;
   if (days <= 7) return "fresh";
@@ -83,7 +86,9 @@ function formatTime(t: string) {
   const [h, m] = t.split(":").map(Number);
   const suffix = h < 12 ? "am" : "pm";
   const hour = h % 12 === 0 ? 12 : h % 12;
-  return m ? `${hour}:${String(m).padStart(2, "0")}${suffix}` : `${hour}${suffix}`;
+  return m
+    ? `${hour}:${String(m).padStart(2, "0")}${suffix}`
+    : `${hour}${suffix}`;
 }
 
 export function formatTimeWindow(
@@ -112,6 +117,7 @@ export function formatTariff(p: PriceParts): string {
   const parts: string[] = [];
   if (p.per_kwh != null) parts.push(`${formatMoney(p.per_kwh)}/kWh`);
   if (p.per_minute != null) parts.push(`${formatMoney(p.per_minute)}/min`);
-  if (p.session_fee != null) parts.push(`${formatMoney(p.session_fee)} per session`);
+  if (p.session_fee != null)
+    parts.push(`${formatMoney(p.session_fee)} per session`);
   return parts.join(" + ");
 }
