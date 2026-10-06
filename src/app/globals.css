@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f7f5;
+  --surface: #ffffff;
+  --foreground: #14201b;
+  --muted: #5d6b65;
+  --border: #e1e6e2;
+  --accent: #0f9d6b;
+  --accent-strong: #0b7a53;
+  --accent-soft: #e3f5ec;
+  --warn: #b7791f;
+  --warn-soft: #fbf1df;
+  --danger: #c2413a;
+  --danger-soft: #fbe7e5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0e1412;
+    --surface: #161e1b;
+    --foreground: #e7eeea;
+    --muted: #94a39c;
+    --border: #26322d;
+    --accent: #34c48c;
+    --accent-strong: #5bd6a5;
+    --accent-soft: #163327;
+    --warn: #e2a948;
+    --warn-soft: #33281a;
+    --danger: #ef6f66;
+    --danger-soft: #3a1f1d;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Price pins on the map. */
+.price-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font: 600 12px/1.2 var(--font-geist-sans), system-ui, sans-serif;
+  white-space: nowrap;
+  color: #fff;
+  background: #0f9d6b;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.35);
+  transform: translate(-50%, -50%);
+}
+.price-pin[data-freshness="aging"] {
+  background: #b7791f;
+}
+.price-pin[data-freshness="stale"],
+.price-pin[data-freshness="none"] {
+  background: #5d6b65;
+}
+.price-pin[data-selected="true"] {
+  outline: 3px solid #14201b;
+  z-index: 1000;
+}
+.leaflet-div-icon.price-pin-wrap {
+  background: none;
+  border: none;
+}

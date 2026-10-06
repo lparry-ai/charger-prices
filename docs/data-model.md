@@ -44,7 +44,8 @@ Site details people care about beyond price:
 **connectors**: one row per *kind* of plug at a station, with a `quantity`,
 rather than one row per physical plug. "4 × CCS2 at 150 kW" is what users can
 actually see and report. Fields: `connector_type` (Type 2, CCS2, CHAdeMO,
-Type 1, NACS), `current_type` (AC/DC), `power_kw`, `quantity`, `tethered`.
+Type 1, NACS), `current_type` (AC/DC), `power_kw` (null when unknown, which is
+common in Open Charge Map), `quantity`, `tethered`.
 
 ## Prices
 
@@ -74,6 +75,11 @@ combination of tier, plan, time window and connector type. That is the
 **price_confirmations**: a one-tap "this is still correct". It refreshes how
 old a price looks without making someone retype it, and gives a cheap trust
 signal. One per user per report.
+
+The `station_summaries` view adds what the map and lists need: latitude and
+longitude, operator name, top power, plug types, and the cheapest current casual
+per-kWh price. `stations_in_bbox` and `stations_near` query it by map area or
+distance.
 
 ## Charger status
 
