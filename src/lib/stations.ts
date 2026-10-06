@@ -1,6 +1,7 @@
 import type { Database } from "@/lib/database.types";
 
-export type StationSummary = Database["public"]["Views"]["station_summaries"]["Row"];
+export type StationSummary =
+  Database["public"]["Views"]["station_summaries"]["Row"];
 
 // Great-circle distance in kilometres.
 export function distanceKm(
@@ -17,5 +18,7 @@ export function distanceKm(
 }
 
 export function formatDistance(km: number) {
-  return km < 1 ? `${Math.round(km * 1000)} m` : `${km < 10 ? km.toFixed(1) : Math.round(km)} km`;
+  return km < 1
+    ? `${Math.round(km * 1000)} m`
+    : `${km < 10 ? km.toFixed(1) : Math.round(km)} km`;
 }

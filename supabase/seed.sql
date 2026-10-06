@@ -1,6 +1,6 @@
 -- Local development data only. Fictional networks and prices around Sydney.
--- Sign in locally as demo@example.com via the magic link in Mailpit
--- (http://127.0.0.1:54324).
+-- Sign in locally as demo@example.com (a regular driver) or mod@example.com
+-- (an admin) via the magic link in Mailpit (http://127.0.0.1:54324).
 
 insert into auth.users (
   instance_id, id, aud, role, email, encrypted_password, email_confirmed_at,
@@ -13,6 +13,13 @@ insert into auth.users (
   extensions.crypt('password123', extensions.gen_salt('bf')), now(),
   '{"provider":"email","providers":["email"]}', '{"name":"Demo driver"}',
   now(), now(), '', '', '', ''
+), (
+  '00000000-0000-0000-0000-000000000000',
+  '00000000-0000-0000-0000-0000000000ad',
+  'authenticated', 'authenticated', 'mod@example.com',
+  extensions.crypt('password123', extensions.gen_salt('bf')), now(),
+  '{"provider":"email","providers":["email"]}', '{"name":"Local admin"}',
+  now(), now(), '', '', '', ''
 );
 
 insert into auth.identities (
@@ -24,7 +31,17 @@ insert into auth.identities (
   'email',
   '{"sub":"00000000-0000-0000-0000-00000000d3e0","email":"demo@example.com","email_verified":true}',
   now(), now(), now()
+), (
+  gen_random_uuid(),
+  '00000000-0000-0000-0000-0000000000ad',
+  '00000000-0000-0000-0000-0000000000ad',
+  'email',
+  '{"sub":"00000000-0000-0000-0000-0000000000ad","email":"mod@example.com","email_verified":true}',
+  now(), now(), now()
 );
+
+insert into public.user_moderation (user_id, role)
+values ('00000000-0000-0000-0000-0000000000ad', 'admin');
 
 insert into public.operators (name, website) values
   ('Harbour Charge', 'https://example.com/harbour'),

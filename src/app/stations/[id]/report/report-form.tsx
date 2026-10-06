@@ -46,29 +46,57 @@ export function ReportForm({
               <label htmlFor="per_kwh" className={label}>
                 Per kWh
               </label>
-              <input id="per_kwh" name="per_kwh" inputMode="decimal" placeholder="0.59" className={input} />
+              <input
+                id="per_kwh"
+                name="per_kwh"
+                inputMode="decimal"
+                placeholder="0.59"
+                className={input}
+              />
             </div>
             <div>
               <label htmlFor="per_minute" className={label}>
                 Per minute
               </label>
-              <input id="per_minute" name="per_minute" inputMode="decimal" placeholder="—" className={input} />
+              <input
+                id="per_minute"
+                name="per_minute"
+                inputMode="decimal"
+                placeholder="—"
+                className={input}
+              />
             </div>
             <div>
               <label htmlFor="session_fee" className={label}>
                 Session fee
               </label>
-              <input id="session_fee" name="session_fee" inputMode="decimal" placeholder="—" className={input} />
+              <input
+                id="session_fee"
+                name="session_fee"
+                inputMode="decimal"
+                placeholder="—"
+                className={input}
+              />
             </div>
           </div>
         )}
-        <p className="text-xs text-muted">In dollars. Fill in whichever the charger uses; 59 and 0.59 both mean 59c/kWh.</p>
+        <p className="text-xs text-muted">
+          In dollars. Fill in whichever the charger uses; 59 and 0.59 both mean
+          59c/kWh.
+        </p>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="idle_fee_per_minute" className={label}>
-              Idle fee per minute <span className="font-normal text-muted">(optional)</span>
+              Idle fee per minute{" "}
+              <span className="font-normal text-muted">(optional)</span>
             </label>
-            <input id="idle_fee_per_minute" name="idle_fee_per_minute" inputMode="decimal" placeholder="1.00" className={input} />
+            <input
+              id="idle_fee_per_minute"
+              name="idle_fee_per_minute"
+              inputMode="decimal"
+              placeholder="1.00"
+              className={input}
+            />
           </div>
           <div>
             <label htmlFor="idle_fee_grace_minutes" className={label}>
@@ -86,13 +114,21 @@ export function ReportForm({
       </fieldset>
 
       <fieldset className="space-y-4 rounded-xl border border-border bg-surface p-4">
-        <legend className="px-1 text-sm font-semibold">Who pays this price</legend>
+        <legend className="px-1 text-sm font-semibold">
+          Who pays this price
+        </legend>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="tier" className={label}>
               Rate
             </label>
-            <select id="tier" name="tier" value={tier} onChange={(e) => setTier(e.target.value)} className={input}>
+            <select
+              id="tier"
+              name="tier"
+              value={tier}
+              onChange={(e) => setTier(e.target.value)}
+              className={input}
+            >
               <option value="casual">Casual (anyone)</option>
               <option value="member">Member</option>
               <option value="subscription">Subscription</option>
@@ -103,14 +139,24 @@ export function ReportForm({
               <label htmlFor="plan_name" className={label}>
                 Plan name
               </label>
-              <input id="plan_name" name="plan_name" placeholder="e.g. Premium" className={input} />
+              <input
+                id="plan_name"
+                name="plan_name"
+                placeholder="e.g. Premium"
+                className={input}
+              />
             </div>
           )}
           <div>
             <label htmlFor="connector_type" className={label}>
               Applies to
             </label>
-            <select id="connector_type" name="connector_type" defaultValue="" className={input}>
+            <select
+              id="connector_type"
+              name="connector_type"
+              defaultValue=""
+              className={input}
+            >
               <option value="">All plugs</option>
               {connectorTypes.map((c) => (
                 <option key={c} value={c}>
@@ -136,13 +182,23 @@ export function ReportForm({
               <label htmlFor="time_window_start" className={label}>
                 From
               </label>
-              <input id="time_window_start" name="time_window_start" type="time" className={input} />
+              <input
+                id="time_window_start"
+                name="time_window_start"
+                type="time"
+                className={input}
+              />
             </div>
             <div>
               <label htmlFor="time_window_end" className={label}>
                 Until
               </label>
-              <input id="time_window_end" name="time_window_end" type="time" className={input} />
+              <input
+                id="time_window_end"
+                name="time_window_end"
+                type="time"
+                className={input}
+              />
             </div>
           </div>
         )}
@@ -163,7 +219,10 @@ export function ReportForm({
       </div>
 
       {state.error && (
-        <p role="alert" className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">
+        <p
+          role="alert"
+          className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger"
+        >
           {state.error}
         </p>
       )}

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getUser } from "@/lib/supabase/server";
 import type { Database } from "@/lib/database.types";
+import { friendlyError } from "@/lib/errors";
 import { parsePriceForm } from "@/lib/price-form";
 
 export type ReportState = { error: string | null };
@@ -25,7 +26,13 @@ export async function submitPrice(
     reported_by: user.id,
   };
   const { error } = await supabase.from("price_reports").insert(row);
-  if (error) return { error: "Couldn't save that price. Please try again." };
+  if (error)
+    return {
+      error: friendlyError(
+        error,
+        "Couldn't save that price. Please try again.",
+      ),
+    };
 
   revalidatePath(`/stations/${stationId}`);
   redirect(`/stations/${stationId}`);

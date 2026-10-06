@@ -23,7 +23,8 @@ npm run dev
 
 Open http://127.0.0.1:3000. Sign in with any email address; the sign-in link
 lands in the local inbox at http://127.0.0.1:54324. The sample data includes a
-user `demo@example.com` with a few reported prices around Sydney.
+driver `demo@example.com` with a few reported prices around Sydney, and an
+admin `mod@example.com` who can open the moderation page at `/moderate`.
 
 Useful commands:
 
@@ -49,6 +50,27 @@ npm run import:ocm                   # import all of Australia
 Re-running only adds new stations; stations already imported are left as they
 are so user corrections aren't overwritten.
 
+## Moderation
+
+Moderators see a "Moderate" link in the header. The `/moderate` page lists open
+flags (from users, plus automatic ones for implausible prices), the latest price
+reports, and shadowbanned users. From there they can hide reports and
+shadowban or unban their authors. Hidden reports and shadowbanned users still
+see their own content, so nothing looks different to them.
+
+To make someone a moderator or admin, run this in the Supabase SQL editor once
+they've signed in:
+
+```sql
+insert into public.user_moderation (user_id, role)
+select id, 'admin' from auth.users where email = 'you@example.com'
+on conflict (user_id) do update set role = excluded.role;
+```
+
+Admins and moderators can't be shadowbanned from the app. Users are rate
+limited (20 price reports and 30 status reports an hour, 30 flags a day);
+moderators are exempt.
+
 ## Deploying
 
 1. Create a project at https://supabase.com and link it: `npx supabase link`,
@@ -59,6 +81,7 @@ are so user corrections aren't overwritten.
    `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and
    `NEXT_PUBLIC_SITE_URL`.
 4. Run the Open Charge Map import against the production database.
+5. Sign in on the live site and make yourself an admin (see Moderation above).
 
 Supabase's built-in email sender is rate-limited and meant for testing. Before
 real users arrive, set up custom SMTP under Authentication → Emails.

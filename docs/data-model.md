@@ -97,8 +97,9 @@ for step 3; the table supports both.
 
 ## Users, trust and moderation
 
-**profiles**: one per Supabase Auth user, holding `display_name`, `role`
-(`user`, `moderator`, `admin`) and `reputation`.
+**profiles**: one per Supabase Auth user, holding `display_name` and
+`reputation`. Roles and bans live separately in `user_moderation`, which only
+moderators can read.
 
 **Shadowbans**: `profiles.shadowbanned_at` is set by a moderator. Row Level
 Security means a shadowbanned user's reports, confirmations and edits are
@@ -106,9 +107,24 @@ visible to *that user* and to moderators, and to nobody else. From the banned
 user's side nothing looks different. Public users cannot see who is banned, and
 users cannot set their own `role`, `reputation` or ban fields.
 
+Moderators read `user_moderation` but change it only through the
+`set_shadowban` function, which refuses to ban moderators, admins or the caller.
+Roles are granted by an admin in SQL.
+
 **flags**: any signed-in user can flag a price report, status report or
 station as wrong, spam or offensive. Moderators resolve flags, and a resolved
-flag can hide the target (`hidden_at` on the target row).
+flag can hide the target (`hidden_at` on the target row). Flags with a null
+`flagged_by` are raised automatically when a casual price is over $1.50/kWh,
+under 5c/kWh, or more than 50% away from the median of other drivers' reports at
+that station in the last 90 days. The report still shows until a moderator
+hides it.
+
+**Reputation**: a user gains a point each time another (non-banned) user
+confirms one of their prices.
+
+**Rate limits**: triggers cap each user at 20 price reports and 30 status
+reports an hour, and 30 flags, 20 station edits and 10 new stations a day.
+Moderators are exempt. Over the limit, the insert fails with `rate_limited`.
 
 Every user-authored row stores the author's id, so "who updated what" is always
 answerable.
