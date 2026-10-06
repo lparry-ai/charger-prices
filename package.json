@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "test": "tsx --test \"src/**/*.test.ts\" \"scripts/**/*.test.ts\"",
     "import:ocm": "tsx --env-file-if-exists=.env.local scripts/import-ocm.ts",
     "db:types": "supabase gen types typescript --local > src/lib/database.types.ts && prettier --write src/lib/database.types.ts"
